@@ -12,7 +12,7 @@ public class UnitIntensity: Dimension {
         return UnitIntensity(symbol: "mm/hr", converter: UnitConverterLinear(coefficient: 1))
     }
     public class var inchesPerHour: UnitIntensity {
-        return UnitIntensity(symbol: "in/hr", converter: UnitLength.inches.converter)
+        return UnitIntensity(symbol: "in/hr", converter: UnitConverterLinear(coefficient: 25.4))
     }
 
     override public class func baseUnit() -> UnitIntensity {
