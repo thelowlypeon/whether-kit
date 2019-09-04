@@ -57,7 +57,7 @@ class WeatherSnapshotDecodingTests: XCTestCase {
             XCTAssertEqual(snapshot.humidity?.value, 0.2)
             XCTAssertEqual(snapshot.precipProbability?.value, 0.1)
             XCTAssertEqual(snapshot.precipIntensity?.value, 1.5)
-            XCTAssertEqual(snapshot.precipIntensityError?.value, 0.2)
+            XCTAssertEqual(snapshot.precipIntensityError, 0.2)
             XCTAssertEqual(snapshot.pressure?.value, 100)
             XCTAssertEqual(snapshot.ozone?.value, 267)
             XCTAssertEqual(snapshot.uvIndex, 2)

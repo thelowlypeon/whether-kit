@@ -5,25 +5,12 @@ public enum WhetherUnit {
     case si // default
     case uk // same as si, except that nearestStormDistance and visibility are in miles, and windSpeed and windGust in miles per hour
     case ca // same as si, except that windSpeed and windGust are in kilometers per hour
-
-    public struct WhetherMeasurement<WhetherMeasurementUnit: Unit> {
-        public var value: Double { return measurement.value }
-        public var unit: WhetherMeasurementUnit { return measurement.unit }
-        private let measurement: Measurement<WhetherMeasurementUnit>
-
-        public init(_ value: Double, unit: WhetherMeasurementUnit) {
-            self.init(measurement: Measurement<WhetherMeasurementUnit>(value: value, unit: unit))
-        }
-
-        public init(measurement: Measurement<WhetherMeasurementUnit>) {
-            self.measurement = measurement
-        }
-    }
 }
 
-extension WhetherUnit.WhetherMeasurement: CustomStringConvertible {
-    public var description: String {
-        return String(describing: measurement)
+extension Measurement {
+    public init?(value: Any?, unit: UnitType) {
+        guard let value = value as? Double else { return nil }
+        self.init(value: value, unit: unit)
     }
 
     public func description(withPrecision precision: Int? = nil) -> String {
@@ -32,44 +19,39 @@ extension WhetherUnit.WhetherMeasurement: CustomStringConvertible {
     }
 }
 
-public protocol MeasurementWithDefaultUnit {
-    associatedtype DefaultUnitType = Self
-    static var defaultUnit: DefaultUnitType { get }
-}
+public class UnitOzone: Dimension {
+    public class var dobson: UnitOzone {
+        return UnitOzone(symbol: "Dobsons", converter: UnitConverterLinear(coefficient: 1))
+    }
 
-public protocol WhetherUnitConvertible {
-    associatedtype UnitType = Self
-    static func unit(for whetherUnit: WhetherUnit) -> UnitType
-}
-
-extension WhetherUnit.WhetherMeasurement: Decodable where WhetherMeasurementUnit: MeasurementWithDefaultUnit {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        self.init(
-            try container.decode(Double.self),
-            unit: WhetherMeasurementUnit.defaultUnit as! WhetherMeasurementUnit
-        )
+    override public class func baseUnit() -> UnitOzone {
+        return UnitOzone.dobson
     }
 }
 
-extension WhetherUnit.WhetherMeasurement where WhetherMeasurementUnit: WhetherUnitConvertible, WhetherMeasurementUnit: Dimension {
-    public func convert(to whetherUnit: WhetherUnit) -> WhetherUnit.WhetherMeasurement<WhetherMeasurementUnit> {
-        return WhetherUnit.WhetherMeasurement<WhetherMeasurementUnit>(
-            measurement: measurement.converted(
-                to: WhetherMeasurementUnit.unit(for: whetherUnit) as! WhetherMeasurementUnit
-            )
-        )
+public class UnitPercent: Dimension {
+    public class var double: UnitPercent {
+        return UnitPercent(symbol: "of 1", converter: UnitConverterLinear(coefficient: 1))
+    }
+
+    public class var percent: UnitPercent {
+        return UnitPercent(symbol: "%", converter: UnitConverterLinear(coefficient: 0.01))
+    }
+
+    override public class func baseUnit() -> UnitPercent {
+        return .double
     }
 }
 
-//extension WhetherUnit {
-//    public var lengthUnit: UnitLength {
-//        switch self {
-//        case .us: return .inches
-//        default: return .millimeters
-//        }
-//    }
-//}
-//extension UnitLength: MeasurementWithDefaultUnit {
-//    public static var defaultUnit: UnitLength { return WhetherUnit.si.lengthUnit }
-//}
+public class UnitIntensity: Dimension {
+    public class var mmPerHour: UnitIntensity {
+        return UnitIntensity(symbol: "mm/hr", converter: UnitConverterLinear(coefficient: 1))
+    }
+    public class var inchesPerHour: UnitIntensity {
+        return UnitIntensity(symbol: "in/hr", converter: UnitConverterLinear(coefficient: 25.4))
+    }
+
+    override public class func baseUnit() -> UnitIntensity {
+        return UnitIntensity.mmPerHour
+    }
+}
