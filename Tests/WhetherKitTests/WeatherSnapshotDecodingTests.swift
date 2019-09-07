@@ -66,5 +66,4 @@ class WeatherSnapshotDecodingTests: XCTestCase {
             XCTFail(error.localizedDescription)
         }
     }
-
 }
