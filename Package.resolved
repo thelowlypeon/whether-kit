@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "SimpleNetworking",
+        "repositoryURL": "https://github.com/thelowlypeon/simple-networking.git",
+        "state": {
+          "branch": null,
+          "revision": "4be3f86605cdede778308506548a98c3c4f8421e",
+          "version": "0.0.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
