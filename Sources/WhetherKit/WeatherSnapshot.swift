@@ -25,6 +25,7 @@ public struct WeatherSnapshot {
     public let precipIntensityError: Double?
 }
 
+@available(iOS 10, macOS 10.12, *)
 extension WeatherSnapshot {
     public var temperature: Measurement<UnitTemperature> {
         return Measurement<UnitTemperature>(value: temperatureCelsius, unit: .celsius)
