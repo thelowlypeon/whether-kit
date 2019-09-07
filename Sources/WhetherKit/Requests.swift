@@ -12,6 +12,15 @@ public struct WhetherLocation {
     public let latitude: Double
     public let longitude: Double
 
+    public init(latitude: Double, longitude: Double) {
+        self.latitude = latitude
+        self.longitude = longitude
+    }
+
+    public init(_ latitude: Double, _ longitude: Double) {
+        self.init(latitude: latitude, longitude: longitude)
+    }
+
     internal var path: String {
         return "/\(latitude),\(longitude)"
     }
