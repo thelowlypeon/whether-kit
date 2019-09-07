@@ -7,7 +7,7 @@ public enum WhetherUnit {
     case ca // same as si, except that windSpeed and windGust are in kilometers per hour
 }
 
-@available(OSX 10.12, *)
+@available(iOS 10, macOS 10.12, *)
 extension Measurement {
     public init?(value: Any?, unit: UnitType) {
         guard let value = value as? Double else { return nil }
@@ -20,7 +20,7 @@ extension Measurement {
     }
 }
 
-@available(OSX 10.12, *)
+@available(iOS 10, macOS 10.12, *)
 public class UnitOzone: Dimension {
     public class var dobson: UnitOzone {
         return UnitOzone(symbol: "Dobsons", converter: UnitConverterLinear(coefficient: 1))
@@ -31,7 +31,7 @@ public class UnitOzone: Dimension {
     }
 }
 
-@available(OSX 10.12, *)
+@available(iOS 10, macOS 10.12, *)
 public class UnitPercent: Dimension {
     public class var double: UnitPercent {
         return UnitPercent(symbol: "of 1", converter: UnitConverterLinear(coefficient: 1))
@@ -46,7 +46,7 @@ public class UnitPercent: Dimension {
     }
 }
 
-@available(OSX 10.12, *)
+@available(iOS 10, macOS 10.12, *)
 public class UnitIntensity: Dimension {
     public class var mmPerHour: UnitIntensity {
         return UnitIntensity(symbol: "mm/hr", converter: UnitConverterLinear(coefficient: 1))
