@@ -7,9 +7,12 @@
 
 import XCTest
 @testable import WhetherKit
+import SimpleNetworking
 
 class IntegrationTests: XCTestCase {
-    let manager = Whether(baseURL: URL(string: "http://localhost:9292/api")!)
+    let manager = Whether(
+        manager: SimpleNetworking(baseURL: URL(string: "http://localhost:9292/api")!)
+    )
 
     func testFetchingWeather() {
         let expectation = self.expectation(description: "Received weather report")

@@ -20,12 +20,4 @@ public struct Whether {
         }
         return _sharedInstance
     }
-
-    internal init(manager: SimpleNetworking) {
-        self.manager = manager
-    }
-
-    public init(baseURL: URL) {
-        self.init(manager: SimpleNetworking(baseURL: baseURL))
-    }
 }
