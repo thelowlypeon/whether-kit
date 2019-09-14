@@ -22,8 +22,11 @@ public enum WhetherError {
             return .invalidURL
         case .networkingError(let error):
             return .networkingError(error)
-        case .clientError(_):
-            return .authorizationFailure
+        case .clientError(let status):
+            switch status {
+            case 403: return .rateLimitExceeded
+            default: return .authorizationFailure
+            }
         default:
             return .serverError
         }
