@@ -9,14 +9,33 @@ import XCTest
 @testable import WhetherKit
 import SimpleNetworking
 
+class WhetherCredentialStorageMemory: WhetherCredentialStorage {
+    var credentials: Whether.Credentials?
+
+    func restore() -> Whether.Credentials? {
+        return credentials
+    }
+
+    func persist(credentials: Whether.Credentials?) {
+        self.credentials = credentials
+    }
+}
+
 class IntegrationTests: XCTestCase {
-    let manager = Whether(
-        manager: SimpleNetworking(baseURL: URL(string: "http://localhost:9292/api")!)
-    )
+    var storage: WhetherCredentialStorage!
+    var manager: Whether!
+
+    override func setUp() {
+        storage = WhetherCredentialStorageMemory()
+        manager = Whether(
+            manager: Whether.localNetworkingManager,
+            credentialStorage: storage
+        )
+    }
 
     func testFetchingWeather() {
         let expectation = self.expectation(description: "Received weather report")
-        manager.weather(at: WhetherLocation(latitude: 81, longitude: 41)) {(result) in
+        manager.weather(at: Whether.Location(latitude: 81, longitude: 41)) {(result) in
             switch result {
             case .success(let report):
                 let weatherReport = report
@@ -28,5 +47,20 @@ class IntegrationTests: XCTestCase {
             expectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)
+    }
+
+    func testAuthenticationPersistence() {
+        let expectation = self.expectation(description: "Received weather report")
+        manager.weather(at: Whether.Location(latitude: 81, longitude: 41)) {(result) in
+            switch result {
+            case .success(_):
+                break
+            case .failure(let error):
+                XCTFail("Got an error \(error)")
+            }
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 5, handler: nil)
+        XCTAssertNotNil(storage.restore())
     }
 }

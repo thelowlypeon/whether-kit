@@ -7,7 +7,7 @@ A library for defining and retrieving weather data for The Whether App.
 Request weather data using the shared `Whether` instance.
 
 ```swift
-let location = WhetherLocation(latitude: 41.8825149, longitude: -87.6297767)
+let location = Whether.Location(latitude: 41.8825149, longitude: -87.6297767)
 Whether.shared.weather(at: location) {(result) in
     switch result {
     case .success(let weatherReport):
@@ -21,9 +21,20 @@ Whether.shared.weather(at: location) {(result) in
 ## Authentication
 
 IMPORTANT: `WhetherKit` authenticates by requesting a token from the server,
-and passing it for each request. Token granting is rate limited, however,
-so if you run unit tests locally, you should use a local server, or your IP
-will receive 403 status codes for auth token requests (and 401 for others).
+and passing it for each request. Token granting is rate limited, so you
+Whether will persist the given auth token every time it is updated.
+
+By default, `Whether` will use `UserDefaults.standard` for persistence
+between launches. If you'd like to use some other kind of persistence,
+simply implement the `WhetherAuthenticationStorage` protocol and initialize
+your own instance of `Whether` (rather than using `shared`). For example:
+
+```swift
+let manager = Whether(
+  manager: Whether.defaultNetworkingManager,
+  credentialStorage: myOwnAuthenticationStorage
+)
+```
 
 It is very likely I'll add a per-app token rather than rate limiting by IP,
 so stay tuned for changes.
