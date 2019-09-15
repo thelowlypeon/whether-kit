@@ -63,5 +63,5 @@ By default, all values are in SI units.
 
 IMPORTANT: Most of these fields are optional and exist only based on where
 the snapshot exists. For example, precipitation accumulation doesn't exist for
-current weather, but does for daily weather. I hope to clean this up so more fields
-are guaranteed to be present.
+current weather, but does for daily weather. So while all snapshot types
+use the same struct, their public accessors vary.

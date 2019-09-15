@@ -62,6 +62,13 @@ public struct Whether {
         return _sharedInstance
     }
 
+    public init() {
+        self.init(
+            manager: Whether.defaultNetworkingManager,
+            credentialStorage: CredentialStorageUserDefaults.standard
+        )
+    }
+
     public init(manager: SimpleNetworking, credentialStorage: WhetherCredentialStorage) {
         self.manager = manager
         self.credentialStorage = credentialStorage

@@ -54,6 +54,7 @@ class IntegrationTests: XCTestCase {
         manager.weather(at: Whether.Location(latitude: 81, longitude: 41)) {(result) in
             switch result {
             case .success(_):
+                XCTAssertNotNil(self.storage.restore())
                 break
             case .failure(let error):
                 XCTFail("Got an error \(error)")
@@ -61,6 +62,5 @@ class IntegrationTests: XCTestCase {
             expectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)
-        XCTAssertNotNil(storage.restore())
     }
 }

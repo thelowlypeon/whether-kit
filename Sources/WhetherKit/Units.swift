@@ -59,3 +59,29 @@ public class UnitIntensity: Dimension {
         return UnitIntensity.mmPerHour
     }
 }
+
+extension WeatherReport.Snapshot {
+    public enum PrecipitationType: String {
+        case rain = "rain"
+        case snow = "snow"
+        case sleet = "sleet"
+    }
+}
+
+extension WeatherReport.Snapshot {
+    public enum Icon: String {
+        case clearDay = "clear-day"
+        case clearNight = "clear-night"
+        case rain = "rain"
+        case snow = "snow"
+        case sleet = "sleet"
+        case wind = "wind"
+        case fog = "fog"
+        case cloudy = "cloudy"
+        case partlyCloudyDay = "partly-cloudy-day"
+        case partlyCloudyNight = "partly-cloudy-night"
+        case hail = "hail"
+        case thunderstorm = "thunderstorm"
+        case tornado = "tornado"
+    }
+}
