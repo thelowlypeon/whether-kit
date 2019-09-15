@@ -39,10 +39,34 @@ extension WeatherReport {
         internal let temperatureCelsius: Double? // only currently and hourly
         internal let apparentTemperatureCelsius: Double? // only currently and hourly
     
-        internal let precipAccumulationMillimeters: Double? // only hourly and daily
+        internal let precipAccumulationMillimeters: Double? // only hourly and daily. NOTE: refers to snowfall only
 
         internal let nearestStormDistanceKilometers: Double? // only currently
         internal let nearestStormBearingDegrees: Double? // only currently
+
+
+        // on daily only
+        internal let apparentTemperatureHighCelsius: Double?
+        internal let apparentTemperatureHighTimeDate: Date?
+        internal let apparentTemperatureLowCelsius: Double?
+        internal let apparentTemperatureLowTimeDate: Date?
+        internal let apparentTemperatureMaxCelsius: Double?
+        internal let apparentTemperatureMaxTimeDate: Date?
+        internal let apparentTemperatureMinCelsius: Double?
+        internal let apparentTemperatureMinTimeDate: Date?
+
+        internal let moonPhaseDouble: Double? // percent with 0 new moon, 0.5 full moon, etc
+
+        internal let precipIntensityMaxMillimetersPerHour: Double?
+        internal let precipIntensityMaxTimeDate: Date?
+        internal let sunriseTimeDate: Date?
+        internal let sunsetTimeDate: Date?
+
+        internal let temperatureHighCelsius: Double?
+        internal let temperatureHighTimeDate: Date?
+        internal let temperatureLowCelsius: Double?
+        internal let temperatureLowTimeDate: Date?
+        // end daily only
     }
 }
 
@@ -70,6 +94,25 @@ extension WeatherReport.Snapshot: Decodable {
         case nearestStormDistanceKilometers = "nearestStormDistance"
         case nearestStormBearingDegrees = "nearestStormBearing"
         case precipAccumulationMillimeters = "precipAccumulation"
+
+        // daily only
+        case apparentTemperatureHighCelsius = "apparentTemperatureHigh"
+        case apparentTemperatureHighTimeDate = "apparentTemperatureHighTime"
+        case apparentTemperatureLowCelsius = "apparentTemperatureLow"
+        case apparentTemperatureLowTimeDate = "apparentTemperatureLowTime"
+        case apparentTemperatureMaxCelsius = "apparentTemperatureMax"
+        case apparentTemperatureMaxTimeDate = "apparentTemperatureMaxTime"
+        case apparentTemperatureMinCelsius = "apparentTemperatureMin"
+        case apparentTemperatureMinTimeDate = "apparentTemperatureMinTime"
+        case moonPhaseDouble = "moonPhase"
+        case precipIntensityMaxMillimetersPerHour = "precipIntensityMax"
+        case precipIntensityMaxTimeDate = "precipIntensityMaxTime"
+        case sunriseTimeDate = "sunriseTime"
+        case sunsetTimeDate = "sunsetTime"
+        case temperatureHighCelsius = "temperatureHigh"
+        case temperatureHighTimeDate = "temperatureHighTime"
+        case temperatureLowCelsius = "temperatureLow"
+        case temperatureLowTimeDate = "temperatureLowTime"
     }
 }
 

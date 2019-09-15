@@ -7,29 +7,6 @@
 
 import Foundation
 
-// TODO: DAILY STUFF
-//        private let apparentTemperatureHighCelsius: Double?
-//        public let apparentTemperatureHighTime: Date?
-//        private let apparentTemperatureLowCelsius: Double?
-//        public let apparentTemperatureLowTime: Date?
-//        private let apparentTemperatureMaxCelsius: Double?
-//        public let apparentTemperatureMaxTime: Date?
-//        private let apparentTemperatureMinCelsius: Double?
-//        public let apparentTemperatureMinTime: Date?
-
-//        private let moonPhaseDouble: Double? // percent with 0 new moon, 0.5 full moon, etc
-//
-//        private let precipAccumulationMillimeters: Double?
-//        private let precipIntensityMaxMillimetersPerHour: Double?
-//        public let precipIntensityMaxTime: Date?
-//        public let sunriseTime: Date?
-//        public let sunsetTime: Date?
-//
-//        private let temperatureHighCelsius: Double?
-//        public let temperatureHighTime: Date?
-//        private let temperatureLowCelsius: Double?
-//        public let temperatureLowTime: Date?
-
 extension WeatherReport {
     public class SnapshotDaily: SnapshotDetailed {}
     public struct Daily {
@@ -45,4 +22,61 @@ extension WeatherReport.Daily: Decodable {
         case icon = "icon"
         case data = "data"
     }
+}
+
+@available(iOS 10, macOS 10.12, *)
+extension WeatherReport.Snapshot where T: WeatherReport.SnapshotDaily {
+    public var snowAccumulation: Measurement<UnitLength>? {
+        return Measurement<UnitLength>(value: precipAccumulationMillimeters, unit: .millimeters)
+    }
+
+    public var apparentTemperatureHigh: Measurement<UnitTemperature>? {
+        return Measurement<UnitTemperature>(value: apparentTemperatureHighCelsius, unit: .celsius)
+    }
+
+    public var apparentTemperatureLow: Measurement<UnitTemperature>? {
+        return Measurement<UnitTemperature>(value: apparentTemperatureLowCelsius, unit: .celsius)
+    }
+
+    public var apparentTemperatureMax: Measurement<UnitTemperature>? {
+        return Measurement<UnitTemperature>(value: apparentTemperatureMaxCelsius, unit: .celsius)
+    }
+
+    public var apparentTemperatureMin: Measurement<UnitTemperature>? {
+        return Measurement<UnitTemperature>(value: apparentTemperatureMinCelsius, unit: .celsius)
+    }
+
+    public var apparentTemperatureHighTime: Date? { return apparentTemperatureHighTimeDate }
+
+    public var apparentTemperatureLowTime: Date? { return apparentTemperatureLowTimeDate }
+
+    public var apparentTemperatureMaxTime: Date? { return apparentTemperatureMaxTimeDate }
+
+    public var apparentTemperatureMinTime: Date? { return apparentTemperatureMinTimeDate }
+
+    public var moonPhase: Measurement<UnitPercent>? {
+        return Measurement<UnitPercent>(value: moonPhaseDouble, unit: .double)
+    }
+
+    public var precipIntensityMaxTime: Date? { return precipIntensityMaxTimeDate }
+
+    public var precipIntensityMax: Measurement<UnitIntensity>? {
+        return Measurement<UnitIntensity>(value: precipIntensityMaxMillimetersPerHour, unit: .mmPerHour)
+    }
+
+    public var sunriseTime: Date? { return sunriseTimeDate }
+
+    public var sunsetTime: Date? { return sunsetTimeDate }
+
+    public var temperatureHigh: Measurement<UnitTemperature>? {
+        return Measurement<UnitTemperature>(value: temperatureHighCelsius, unit: .celsius)
+    }
+
+    public var temperatureLow: Measurement<UnitTemperature>? {
+        return Measurement<UnitTemperature>(value: temperatureLowCelsius, unit: .celsius)
+    }
+
+    public var temperatureHighTime: Date? { return temperatureHighTimeDate }
+
+    public var temperatureLowTime: Date? { return temperatureLowTimeDate }
 }

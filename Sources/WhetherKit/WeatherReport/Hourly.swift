@@ -34,7 +34,7 @@ extension WeatherReport.Snapshot where T: WeatherReport.SnapshotHourly {
         return Measurement<UnitTemperature>(value: apparentTemperatureCelsius, unit: .celsius)
     }
 
-    public var precipAccumulation: Measurement<UnitLength>? {
+    public var snowAccumulation: Measurement<UnitLength>? {
         return Measurement<UnitLength>(value: precipAccumulationMillimeters, unit: .millimeters)
     }
 }

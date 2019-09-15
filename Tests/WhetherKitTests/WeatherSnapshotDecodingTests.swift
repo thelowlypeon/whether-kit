@@ -104,7 +104,7 @@ class WeatherSnapshotDecodingTests: XCTestCase {
             XCTAssertEqual(snapshot.precipProbability?.value, 0.1)
             XCTAssertEqual(snapshot.precipIntensity?.value, 1.5)
             XCTAssertEqual(snapshot.precipIntensityError, 0.2)
-            XCTAssertEqual(snapshot.precipAccumulation?.value, 1.4)
+            XCTAssertEqual(snapshot.snowAccumulation?.value, 1.4)
             XCTAssertEqual(snapshot.pressure?.value, 100)
             XCTAssertEqual(snapshot.ozone?.value, 267)
             XCTAssertEqual(snapshot.uvIndex, 2)
@@ -171,6 +171,106 @@ class WeatherSnapshotDecodingTests: XCTestCase {
             XCTAssertEqual(snapshot.precipType, .rain)
             XCTAssertEqual(snapshot.nearestStormDistance?.value, 1.5)
             XCTAssertEqual(snapshot.nearestStormBearing?.value, 275.3)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testDecodeDaily() {
+        json = """
+        {
+            "latitude": 41,
+            "longitude": -81,
+            "timezone": "America/Chicago",
+            "daily": {
+                "summary": "Heavy rain throughout the week, with high temperatures rising to 29°C on Thursday.",
+                "icon": "rain",
+                "data": [
+                    {
+                        "time": 1568523600,
+                        "summary": "Heavy rain in the morning.",
+                        "icon": "rain",
+                        "sunriseTime": 1568547127,
+                        "sunsetTime": 1568592139,
+                        "moonPhase": 0.56,
+                        "precipIntensity": 0.8043,
+                        "precipIntensityError": 0.2,
+                        "precipIntensityMax": 12.7852,
+                        "precipIntensityMaxTime": 1568545200,
+                        "precipProbability": 1,
+                        "precipType": "rain",
+                        "temperatureHigh": 26.34,
+                        "temperatureHighTime": 1568588400,
+                        "temperatureLow": 21.21,
+                        "temperatureLowTime": 1568635200,
+                        "apparentTemperatureHigh": 27.65,
+                        "apparentTemperatureHighTime": 1568588400,
+                        "apparentTemperatureLow": 21.59,
+                        "apparentTemperatureLowTime": 1568635200,
+                        "dewPoint": 16.78,
+                        "humidity": 0.74,
+                        "pressure": 1017.22,
+                        "windSpeed": 3.16,
+                        "windGust": 6.84,
+                        "windGustTime": 1568541600,
+                        "windBearing": 202,
+                        "cloudCover": 0.67,
+                        "uvIndex": 5,
+                        "uvIndexTime": 1568574000,
+                        "visibility": 15.63,
+                        "ozone": 294,
+                        "temperatureMin": 17.52,
+                        "temperatureMinTime": 1568545200,
+                        "temperatureMax": 26.34,
+                        "temperatureMaxTime": 1568588400,
+                        "apparentTemperatureMin": 17.66,
+                        "apparentTemperatureMinTime": 1568545200,
+                        "apparentTemperatureMax": 27.66,
+                        "apparentTemperatureMaxTime": 1568588400
+                    }
+                ]
+            }
+        }
+        """
+
+        do {
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .secondsSince1970
+            let report = try decoder.decode(WeatherReport.self, from: jsonData)
+            XCTAssertNotNil(report.daily)
+            XCTAssert((report.daily?.data.count ?? 0) > 0)
+            guard let snapshot = report.daily?.data.first else { XCTFail("no hourly"); return }
+            XCTAssertEqual(snapshot.time, Date(timeIntervalSince1970: 1568523600))
+            XCTAssertEqual(snapshot.dewPoint?.value, 16.78)
+            XCTAssertEqual(snapshot.windSpeed?.value, 3.16)
+            XCTAssertEqual(snapshot.windGust?.value, 6.84)
+            XCTAssertEqual(snapshot.windBearing?.value, 202)
+            XCTAssertEqual(snapshot.visibility.value, 15.63)
+            XCTAssertEqual(snapshot.humidity?.value, 0.74)
+            XCTAssertEqual(snapshot.precipProbability?.value, 1.0)
+            XCTAssertEqual(snapshot.precipIntensity?.value, 0.8043)
+            XCTAssertEqual(snapshot.precipIntensityError, 0.2)
+            XCTAssertEqual(snapshot.snowAccumulation?.value, nil)
+            XCTAssertEqual(snapshot.pressure?.value, 1017.22)
+            XCTAssertEqual(snapshot.ozone?.value, 294)
+            XCTAssertEqual(snapshot.uvIndex, 5)
+            XCTAssertEqual(snapshot.cloudCover?.value, 0.67)
+            XCTAssertEqual(snapshot.precipType, .rain)
+            XCTAssertEqual(snapshot.apparentTemperatureHigh?.value, 27.65)
+            XCTAssertEqual(snapshot.apparentTemperatureLow?.value, 21.59)
+            XCTAssertEqual(snapshot.apparentTemperatureMin?.value, 17.66)
+            XCTAssertEqual(snapshot.apparentTemperatureMax?.value, 27.66)
+            XCTAssertEqual(snapshot.apparentTemperatureHighTime, Date(timeIntervalSince1970: 1568588400))
+            XCTAssertEqual(snapshot.apparentTemperatureLowTime, Date(timeIntervalSince1970: 1568635200))
+            XCTAssertEqual(snapshot.apparentTemperatureMinTime, Date(timeIntervalSince1970: 1568545200))
+            XCTAssertEqual(snapshot.apparentTemperatureMaxTime, Date(timeIntervalSince1970: 1568588400))
+            XCTAssertEqual(snapshot.moonPhase?.value, 0.56)
+            XCTAssertEqual(snapshot.sunriseTime, Date(timeIntervalSince1970: 1568547127))
+            XCTAssertEqual(snapshot.sunsetTime, Date(timeIntervalSince1970: 1568592139))
+            XCTAssertEqual(snapshot.temperatureHigh?.value, 26.34)
+            XCTAssertEqual(snapshot.temperatureLow?.value, 21.21)
+            XCTAssertEqual(snapshot.precipIntensityMax?.value, 12.7852)
+            XCTAssertEqual(snapshot.precipIntensityMaxTime, Date(timeIntervalSince1970: 1568545200))
         } catch {
             XCTFail(error.localizedDescription)
         }

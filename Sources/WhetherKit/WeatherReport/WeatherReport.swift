@@ -4,6 +4,7 @@ public struct WeatherReport {
     public let timezone: String
     public let currently: WeatherReport.Snapshot<SnapshotCurrently>?
     public let hourly: WeatherReport.Hourly?
+    public let daily: WeatherReport.Daily?
     public let alerts: [WeatherReport.Alert]?
 }
 
@@ -14,6 +15,7 @@ extension WeatherReport: Decodable {
         case timezone = "timezone"
         case currently = "currently"
         case hourly = "hourly"
+        case daily = "daily"
         case alerts = "alerts"
     }
 }
