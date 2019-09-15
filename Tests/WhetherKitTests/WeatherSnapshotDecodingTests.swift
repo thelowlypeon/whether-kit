@@ -239,7 +239,7 @@ class WeatherSnapshotDecodingTests: XCTestCase {
             let report = try decoder.decode(WeatherReport.self, from: jsonData)
             XCTAssertNotNil(report.daily)
             XCTAssert((report.daily?.data.count ?? 0) > 0)
-            guard let snapshot = report.daily?.data.first else { XCTFail("no hourly"); return }
+            guard let snapshot = report.daily?.data.first else { XCTFail("no daily"); return }
             XCTAssertEqual(snapshot.time, Date(timeIntervalSince1970: 1568523600))
             XCTAssertEqual(snapshot.dewPoint?.value, 16.78)
             XCTAssertEqual(snapshot.windSpeed?.value, 3.16)
@@ -271,6 +271,41 @@ class WeatherSnapshotDecodingTests: XCTestCase {
             XCTAssertEqual(snapshot.temperatureLow?.value, 21.21)
             XCTAssertEqual(snapshot.precipIntensityMax?.value, 12.7852)
             XCTAssertEqual(snapshot.precipIntensityMaxTime, Date(timeIntervalSince1970: 1568545200))
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testDecodeMinutely() {
+        json = """
+        {
+            "latitude": 41,
+            "longitude": -81,
+            "timezone": "America/Chicago",
+            "minutely": {
+                "summary": "Mostly cloudy for the hour.",
+                "icon": "partly-cloudy-day",
+                "data": [
+                    {
+                        "time": 1568579760,
+                        "precipIntensity": 0.8043,
+                        "precipProbability": 1.0
+                    }
+                ]
+            }
+        }
+        """
+
+        do {
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .secondsSince1970
+            let report = try decoder.decode(WeatherReport.self, from: jsonData)
+            XCTAssertNotNil(report.minutely)
+            XCTAssert((report.minutely?.data.count ?? 0) > 0)
+            guard let snapshot = report.minutely?.data.first else { XCTFail("no minutely"); return }
+            XCTAssertEqual(snapshot.time, Date(timeIntervalSince1970: 1568579760))
+            XCTAssertEqual(snapshot.precipIntensity?.value, 0.8043)
+            XCTAssertEqual(snapshot.precipProbability?.value, 1.0)
         } catch {
             XCTFail(error.localizedDescription)
         }
