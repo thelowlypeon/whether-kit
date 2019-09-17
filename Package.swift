@@ -13,7 +13,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/thelowlypeon/simple-networking.git", from: "0.0.2"),
+        .package(url: "https://github.com/thelowlypeon/simple-networking.git", from: "0.0.4"),
         //.package(path: "../SimpleNetworking"),
     ],
     targets: [

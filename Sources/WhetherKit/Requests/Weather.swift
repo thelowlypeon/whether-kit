@@ -35,7 +35,8 @@ extension Whether {
     public typealias WeatherRequestCompletionHandler = (WeatherRequestResult) -> Void
 
     public func weather(at location: Location, _ callback: @escaping WeatherRequestCompletionHandler) {
-        manager.get(location.path) {(request) in
+        let params = ["lang" : language.components(separatedBy: "-").first]
+        manager.get(location.path, queryParams: params) {(request) in
             return request.accept(.json)
                 .on(httpStatus: 401, {(req, _) in
                     if req.retries > 0 {

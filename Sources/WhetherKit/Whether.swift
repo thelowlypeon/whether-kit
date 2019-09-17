@@ -37,6 +37,7 @@ fileprivate var _sharedInstance: Whether!
 public struct Whether {
     internal let manager: SimpleNetworking
     internal let credentialStorage: WhetherCredentialStorage
+    internal let language: String
 
     internal var decoder: JSONDecoder {
         let decoder = JSONDecoder()
@@ -62,16 +63,18 @@ public struct Whether {
         return _sharedInstance
     }
 
-    public init() {
+    public init(language: String? = nil) {
         self.init(
             manager: Whether.defaultNetworkingManager,
-            credentialStorage: CredentialStorageUserDefaults.standard
+            credentialStorage: CredentialStorageUserDefaults.standard,
+            language: language
         )
     }
 
-    public init(manager: SimpleNetworking, credentialStorage: WhetherCredentialStorage) {
+    public init(manager: SimpleNetworking, credentialStorage: WhetherCredentialStorage, language: String? = nil) {
         self.manager = manager
         self.credentialStorage = credentialStorage
+        self.language = language ?? NSLocale.preferredLanguages.first ?? "en"
         self.authenticate(with: credentialStorage.restore(), persist: false)
     }
 
