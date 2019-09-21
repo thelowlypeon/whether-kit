@@ -39,9 +39,9 @@ extension WeatherReport.Alert: Decodable {
         case description
         case expires
         case regions
-        case severityString
+        case severityString = "severity"
         case time
         case title
-        case uriString
+        case uriString = "uri"
     }
 }
