@@ -60,7 +60,8 @@ public class UnitIntensity: Dimension {
     }
 }
 
-extension WeatherReport.Snapshot {
+@available(iOS 10, macOS 10.12, *)
+extension WeatherReport {
     public enum PrecipitationType: String {
         case rain = "rain"
         case snow = "snow"
@@ -68,7 +69,8 @@ extension WeatherReport.Snapshot {
     }
 }
 
-extension WeatherReport.Snapshot {
+@available(iOS 10, macOS 10.12, *)
+extension WeatherReport {
     public enum Icon: String {
         case clearDay = "clear-day"
         case clearNight = "clear-night"

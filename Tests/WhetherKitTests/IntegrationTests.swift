@@ -21,6 +21,7 @@ class WhetherCredentialStorageMemory: WhetherCredentialStorage {
     }
 }
 
+@available(iOS 10, macOS 10.12, *)
 class IntegrationTests: XCTestCase {
     var storage: WhetherCredentialStorage!
     var manager: Whether!

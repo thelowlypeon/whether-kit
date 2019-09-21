@@ -8,6 +8,7 @@
 import Foundation
 import SimpleNetworking
 
+@available(iOS 10, macOS 10.12, *)
 extension Whether {
     public struct Location {
         public let latitude: Double

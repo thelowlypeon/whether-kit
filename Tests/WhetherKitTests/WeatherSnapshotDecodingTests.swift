@@ -8,6 +8,7 @@
 import XCTest
 @testable import WhetherKit
 
+@available(iOS 10, macOS 10.12, *)
 class WeatherSnapshotDecodingTests: XCTestCase {
     var json: String = "{}"
     var jsonData: Data { return json.data(using: .utf8)! }
@@ -99,11 +100,11 @@ class WeatherSnapshotDecodingTests: XCTestCase {
             XCTAssertEqual(snapshot.windSpeed?.value, 0.2)
             XCTAssertEqual(snapshot.windGust?.value, 0.5)
             XCTAssertEqual(snapshot.windBearing?.value, 270)
-            XCTAssertEqual(snapshot.visibility.value, 5)
+            XCTAssertEqual(snapshot.visibility?.value, 5)
             XCTAssertEqual(snapshot.humidity?.value, 0.2)
             XCTAssertEqual(snapshot.precipProbability?.value, 0.1)
             XCTAssertEqual(snapshot.precipIntensity?.value, 1.5)
-            XCTAssertEqual(snapshot.precipIntensityError, 0.2)
+            XCTAssertEqual(snapshot.precipIntensityError?.value, 0.2)
             XCTAssertEqual(snapshot.snowAccumulation?.value, 1.4)
             XCTAssertEqual(snapshot.pressure?.value, 100)
             XCTAssertEqual(snapshot.ozone?.value, 267)
@@ -159,11 +160,11 @@ class WeatherSnapshotDecodingTests: XCTestCase {
             XCTAssertEqual(snapshot.windSpeed?.value, 0.2)
             XCTAssertEqual(snapshot.windGust?.value, 0.5)
             XCTAssertEqual(snapshot.windBearing?.value, 270)
-            XCTAssertEqual(snapshot.visibility.value, 5)
+            XCTAssertEqual(snapshot.visibility?.value, 5)
             XCTAssertEqual(snapshot.humidity?.value, 0.2)
             XCTAssertEqual(snapshot.precipProbability?.value, 0.1)
             XCTAssertEqual(snapshot.precipIntensity?.value, 1.5)
-            XCTAssertEqual(snapshot.precipIntensityError, 0.2)
+            XCTAssertEqual(snapshot.precipIntensityError?.value, 0.2)
             XCTAssertEqual(snapshot.pressure?.value, 100)
             XCTAssertEqual(snapshot.ozone?.value, 267)
             XCTAssertEqual(snapshot.uvIndex, 2)
@@ -245,17 +246,17 @@ class WeatherSnapshotDecodingTests: XCTestCase {
             XCTAssertEqual(snapshot.windSpeed?.value, 3.16)
             XCTAssertEqual(snapshot.windGust?.value, 6.84)
             XCTAssertEqual(snapshot.windBearing?.value, 202)
-            XCTAssertEqual(snapshot.visibility.value, 15.63)
+            XCTAssertEqual(snapshot.visibility?.value, 15.63)
             XCTAssertEqual(snapshot.humidity?.value, 0.74)
             XCTAssertEqual(snapshot.precipProbability?.value, 1.0)
             XCTAssertEqual(snapshot.precipIntensity?.value, 0.8043)
-            XCTAssertEqual(snapshot.precipIntensityError, 0.2)
-            XCTAssertEqual(snapshot.snowAccumulation?.value, nil)
+            XCTAssertEqual(snapshot.precipIntensityError?.value, 0.2)
             XCTAssertEqual(snapshot.pressure?.value, 1017.22)
             XCTAssertEqual(snapshot.ozone?.value, 294)
             XCTAssertEqual(snapshot.uvIndex, 5)
             XCTAssertEqual(snapshot.cloudCover?.value, 0.67)
             XCTAssertEqual(snapshot.precipType, .rain)
+            XCTAssertEqual(snapshot.snowAccumulation?.value, nil)
             XCTAssertEqual(snapshot.apparentTemperatureHigh?.value, 27.65)
             XCTAssertEqual(snapshot.apparentTemperatureLow?.value, 21.59)
             XCTAssertEqual(snapshot.apparentTemperatureMin?.value, 17.66)
@@ -306,6 +307,7 @@ class WeatherSnapshotDecodingTests: XCTestCase {
             XCTAssertEqual(snapshot.time, Date(timeIntervalSince1970: 1568579760))
             XCTAssertEqual(snapshot.precipIntensity?.value, 0.8043)
             XCTAssertEqual(snapshot.precipProbability?.value, 1.0)
+            XCTAssertEqual(snapshot.precipIntensityError?.value, nil)
         } catch {
             XCTFail(error.localizedDescription)
         }

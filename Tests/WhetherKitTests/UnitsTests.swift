@@ -8,6 +8,7 @@
 import XCTest
 @testable import WhetherKit
 
+@available(iOS 10, macOS 10.12, *)
 class UnitsTests: XCTestCase {
     func testPercent() {
         let double = Measurement<UnitPercent>(value: 0.5, unit: .double)

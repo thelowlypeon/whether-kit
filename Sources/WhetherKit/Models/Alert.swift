@@ -7,13 +7,14 @@
 
 import Foundation
 
+@available(iOS 10, macOS 10.12, *)
 extension WeatherReport {
     public struct Alert {
         public enum AlertSeverity: String {
-            case advisory = "advisory"
-            case watch = "watch"
-            case warning = "warning"
-            case none = "none"
+            case advisory
+            case watch
+            case warning
+            case none
         }
 
         public let description: String
@@ -32,14 +33,15 @@ extension WeatherReport {
     }
 }
 
-extension WeatherReport.Alert: Codable {
+@available(iOS 10, macOS 10.12, *)
+extension WeatherReport.Alert: Decodable {
     internal enum CodingKeys: String, CodingKey {
-        case description = "description"
-        case expires = "expires"
-        case regions = "regions"
-        case severityString = "severity"
-        case time = "time"
-        case title = "title"
-        case uriString = "uri"
+        case description
+        case expires
+        case regions
+        case severityString
+        case time
+        case title
+        case uriString
     }
 }
