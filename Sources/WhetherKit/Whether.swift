@@ -7,6 +7,7 @@
 
 import Foundation
 import SimpleNetworking
+import CoreData
 
 public enum WhetherError {
     case invalidResponse
@@ -34,6 +35,10 @@ public enum WhetherError {
 }
 
 fileprivate var _sharedInstance: Whether!
+
+@available(iOS 10, macOS 10.12, *)
+fileprivate var _sharedPreferenceManager: PreferenceManager!
+
 public struct Whether {
     internal let manager: SimpleNetworking
     internal let credentialStorage: WhetherCredentialStorage
@@ -69,6 +74,14 @@ public struct Whether {
             credentialStorage: CredentialStorageUserDefaults.standard,
             language: language
         )
+    }
+
+    @available(iOS 10, macOS 10.12, *)
+    public var preferences: PreferenceManager {
+        if _sharedPreferenceManager == nil {
+            _sharedPreferenceManager = PreferenceManager()
+        }
+        return _sharedPreferenceManager!
     }
 
     public init(manager: SimpleNetworking, credentialStorage: WhetherCredentialStorage, language: String? = nil) {

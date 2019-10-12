@@ -34,7 +34,7 @@ extension WeatherReport.Currently {
 }
 
 @available(iOS 10, macOS 10.12, *)
-extension WeatherReport.Currently.Snapshot: Decodable {
+extension WeatherReport.Currently.Snapshot: Codable {
     internal enum CodingKeys: String, CodingKey {
         case time
         case summary
@@ -85,5 +85,32 @@ extension WeatherReport.Currently.Snapshot: Decodable {
         self.precipIntensity = try container.decodeIntensity(forKey: .precipIntensity)
         self.precipIntensityError = try container.decodePercent(forKey: .precipIntensityError)
         self.snowAccumulation = try container.decodeLength(forKey: .snowAccumulation, unit: .millimeters)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(time, forKey: .time)
+        try container.encodeIfPresent(summary, forKey: .summary)
+        try container.encodeSnapshotIcon(icon, forKey: .icon)
+        try container.encodeTemperature(dewPoint, forKey: .dewPoint)
+        try container.encodeSpeed(windSpeed, forKey: .windSpeed)
+        try container.encodeSpeed(windGust, forKey: .windGust)
+        try container.encodeAngle(windBearing, forKey: .windBearing)
+        try container.encodeLength(visibility, forKey: .visibility)
+        try container.encodePercent(humidity, forKey: .humidity)
+        try container.encodePressure(pressure, forKey: .pressure)
+        try container.encodeOzone(ozone, forKey: .ozone)
+        try container.encodeIfPresent(uvIndex, forKey: .uvIndex)
+        try container.encodePercent(cloudCover, forKey: .cloudCover)
+        try container.encodeTemperature(temperature, forKey: .temperature)
+        try container.encodeTemperature(apparentTemperature, forKey: .apparentTemperature)
+        try container.encodeLength(nearestStormDistance, forKey: .nearestStormDistance)
+        try container.encodeAngle(nearestStormBearing, forKey: .nearestStormBearing)
+        try container.encodePrecipitationType(precipType, forKey: .precipType)
+        try container.encodePercent(precipProbability, forKey: .precipProbability)
+        try container.encodeIntensity(precipIntensity, forKey: .precipIntensity)
+        try container.encodePercent(precipIntensityError, forKey: .precipIntensityError)
+        try container.encodeLength(snowAccumulation, forKey: .snowAccumulation, unit: .millimeters)
     }
 }

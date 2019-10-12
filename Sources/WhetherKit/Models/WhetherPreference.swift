@@ -13,7 +13,7 @@ public struct WhetherPreference {
 }
 
 @available(iOS 10, macOS 10.12, *)
-extension WhetherPreference: Decodable {
+extension WhetherPreference: Codable {
     internal enum CodingKeys: String, CodingKey {
         case good
         case activityType = "activity_type"

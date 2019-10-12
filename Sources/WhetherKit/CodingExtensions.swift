@@ -1,11 +1,54 @@
 //
-//  Extensions.swift
+//  CodingExtensions.swift
 //  SimpleNetworking
 //
 //  Created by Peter Compernolle on 9/20/19.
 //
 
 import Foundation
+
+@available(iOS 10, macOS 10.12, *)
+extension KeyedEncodingContainer {
+    internal mutating func encodeTemperature(_ temperature: Measurement<UnitTemperature>?, forKey key: KeyedEncodingContainer.Key) throws {
+        try encodeIfPresent(temperature?.converted(to: .celsius).value, forKey: key)
+    }
+
+    internal mutating func encodeSpeed(_ speed: Measurement<UnitSpeed>?, forKey key: KeyedEncodingContainer.Key) throws {
+        try encodeIfPresent(speed?.converted(to: .metersPerSecond).value, forKey: key)
+    }
+
+    internal mutating func encodeAngle(_ angle: Measurement<UnitAngle>?, forKey key: KeyedEncodingContainer.Key) throws {
+        try encodeIfPresent(angle?.converted(to: .degrees).value, forKey: key)
+    }
+
+    internal mutating func encodeLength(_ distance: Measurement<UnitLength>?, forKey key: KeyedEncodingContainer.Key, unit: UnitLength? = nil) throws {
+        try encodeIfPresent(distance?.converted(to: unit ?? .kilometers).value, forKey: key)
+    }
+
+    internal mutating func encodePercent(_ percent: Measurement<UnitPercent>?, forKey key: KeyedEncodingContainer.Key) throws {
+        try encodeIfPresent(percent?.converted(to: .double).value, forKey: key)
+    }
+
+    internal mutating func encodePressure(_ pressure: Measurement<UnitPressure>?, forKey key: KeyedEncodingContainer.Key) throws {
+        try encodeIfPresent(pressure?.converted(to: .hectopascals).value, forKey: key)
+    }
+
+    internal mutating func encodeOzone(_ ozone: Measurement<UnitOzone>?, forKey key: KeyedEncodingContainer.Key) throws {
+        try encodeIfPresent(ozone?.converted(to: .dobson).value, forKey: key)
+    }
+
+    internal mutating func encodePrecipitationType(_ precipitationType: WeatherReport.PrecipitationType?, forKey key: KeyedEncodingContainer.Key) throws {
+        try encodeIfPresent(precipitationType?.rawValue, forKey: key)
+    }
+
+    internal mutating func encodeIntensity(_ intensity: Measurement<UnitIntensity>?, forKey key: KeyedEncodingContainer.Key) throws {
+        try encodeIfPresent(intensity?.converted(to: .mmPerHour).value, forKey: key)
+    }
+
+    internal mutating func encodeSnapshotIcon(_ snapshotIcon: WeatherReport.Icon?, forKey key: KeyedEncodingContainer.Key) throws {
+        try encodeIfPresent(snapshotIcon?.rawValue, forKey: key)
+    }
+}
 
 @available(iOS 10, macOS 10.12, *)
 extension KeyedDecodingContainer {
