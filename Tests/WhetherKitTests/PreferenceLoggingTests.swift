@@ -57,6 +57,16 @@ class PreferenceLoggingTests: XCTestCase {
         XCTAssertEqual(preferenceManager.preferences.count, 1)
     }
 
+    func testPreferring() {
+        do {
+            try preferenceManager.prefer(snapshot)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+
+        XCTAssertEqual(preferenceManager.preferences.count, 1)
+    }
+
     func testRestoringPreferences() {
         do {
             try preferenceManager.log(preference)

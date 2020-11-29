@@ -29,9 +29,29 @@ public class PreferenceManager {
         }
     }
 
-    public func log(_ preference: WhetherPreference) throws {
+    internal func log(_ preference: WhetherPreference) throws {
         preferences.append(preference)
         try persist()
+    }
+
+    public func dislike(_ snapshot: WeatherReport.Currently.Snapshot, forActivityType activityType: String? = nil) throws {
+        try log(
+            WhetherPreference(
+                good: false,
+                activityType: activityType ?? "default",
+                snapshot: snapshot
+            )
+        )
+    }
+
+    public func prefer(_ snapshot: WeatherReport.Currently.Snapshot, forActivityType activityType: String? = nil) throws {
+        try log(
+            WhetherPreference(
+                good: true,
+                activityType: activityType ?? "default",
+                snapshot: snapshot
+            )
+        )
     }
 
     private func persist() throws {
